@@ -167,6 +167,8 @@ function default_ca_bundle()
         '/etc/ssl/certs/ca-certificates.crt',
         // FreeBSD (provided by the ca_root_nss package)
         '/usr/local/share/certs/ca-root-nss.crt',
+        // SLES 12 (provided by the ca-certificates package)
+        '/var/lib/ca-certificates/ca-bundle.pem',
         // OS X provided by homebrew (using the default path)
         '/usr/local/etc/openssl/cert.pem',
         // Google app engine
@@ -292,15 +294,16 @@ function is_host_in_noproxy($host, array $noProxyArray)
  * @param int    $options Bitmask of JSON decode options.
  *
  * @return mixed
- * @throws \InvalidArgumentException if the JSON cannot be decoded.
+ * @throws Exception\InvalidArgumentException if the JSON cannot be decoded.
  * @link http://www.php.net/manual/en/function.json-decode.php
  */
 function json_decode($json, $assoc = false, $depth = 512, $options = 0)
 {
     $data = \json_decode($json, $assoc, $depth, $options);
     if (JSON_ERROR_NONE !== json_last_error()) {
-        throw new \InvalidArgumentException(
-            'json_decode error: ' . json_last_error_msg());
+        throw new Exception\InvalidArgumentException(
+            'json_decode error: ' . json_last_error_msg()
+        );
     }
 
     return $data;
@@ -314,15 +317,16 @@ function json_decode($json, $assoc = false, $depth = 512, $options = 0)
  * @param int    $depth   Set the maximum depth. Must be greater than zero.
  *
  * @return string
- * @throws \InvalidArgumentException if the JSON cannot be encoded.
+ * @throws Exception\InvalidArgumentException if the JSON cannot be encoded.
  * @link http://www.php.net/manual/en/function.json-encode.php
  */
 function json_encode($value, $options = 0, $depth = 512)
 {
     $json = \json_encode($value, $options, $depth);
     if (JSON_ERROR_NONE !== json_last_error()) {
-        throw new \InvalidArgumentException(
-            'json_encode error: ' . json_last_error_msg());
+        throw new Exception\InvalidArgumentException(
+            'json_encode error: ' . json_last_error_msg()
+        );
     }
 
     return $json;
